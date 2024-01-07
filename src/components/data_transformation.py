@@ -49,14 +49,14 @@ class DataTransformation:
             cat_pipeline=Pipeline(
                 steps=[
                 ("imputer",SimpleImputer(strategy="most_frequent")),
-                ("one_hot_encoder",OneHotEncoder())
+                ("one_hot_encoder",OneHotEncoder()),
+                ("scaler",StandardScaler(with_mean=False))
                 ]
                     
             )
 
-            logging.info("Numerical columns standard scaling completed")
-            
-            logging.info("Categorical columns encoding completed")
+            logging.info(f"Categorical columns: {categorical_columns}")
+            logging.info(f"Numerical columns: {numerical_columns}")
 
             preprocessor=ColumnTransformer(
                 [
@@ -70,7 +70,7 @@ class DataTransformation:
 
 
         except Exception as e:
-            raise CustomException(e,sys)
+            raise CustomException(e,sys) # type: ignore
 
     def initiate_data_transformation(self,train_path,test_path):
 
@@ -116,4 +116,4 @@ class DataTransformation:
                 self.data_transformation_config.preprocessor_obj_file_path
             )
         except Exception as e:
-            raise CustomException(e,sys)
+            raise CustomException(e,sys) # type: ignore
